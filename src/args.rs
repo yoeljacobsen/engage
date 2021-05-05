@@ -116,7 +116,7 @@ fn update_with_config(opts: Opts) -> Opts {
     settings.merge(Config::try_from(&opts).unwrap()).unwrap();
 
     settings.merge(File::with_name("Settings.toml")).unwrap();
-    println!("{:?}", settings);
+    //println!("{:?}", settings);
     let as_opts: Opts = settings.try_into().unwrap();
     as_opts
 }

@@ -23,7 +23,7 @@ pub async fn verify_cred(region: Region) -> bool {
                 None => println!("Successful call but no buckets"),
                 Some(bucket_list) => {
                     for bucket in bucket_list {
-                        println!("{:?}\t{:?}", bucket.name, bucket.creation_date);
+                        println!("{:?}\t{:?}", bucket.name.unwrap(), bucket.creation_date.unwrap());
                     }
                 }
             }
