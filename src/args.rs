@@ -1,4 +1,4 @@
-use clap::{Clap, ArgGroup};
+use clap::{ArgGroup, Clap};
 
 #[derive(Clap, Debug)]
 #[clap(author, about, version)]
@@ -9,10 +9,20 @@ pub struct Opts {
     pub verify_cred: bool,
 
     // Computational Flags
-    #[clap(short = 'c', long = "cores", about = "Number of CPU cores", default_value = "4")]
+    #[clap(
+        short = 'c',
+        long = "cores",
+        about = "Number of CPU cores",
+        default_value = "4"
+    )]
     pub cores: i32,
 
-    #[clap(short = 'm', long = "mem", about = "RAM size in GB", default_value = "8")]
+    #[clap(
+        short = 'm',
+        long = "mem",
+        about = "RAM size in GB",
+        default_value = "8"
+    )]
     pub mem: i32,
 
     #[clap(short = 'g', long = "gpus", about = "Number of GPU devices", requires_all = &["gpu_type", "framework"])]
@@ -39,7 +49,11 @@ pub struct Opts {
     pub wait: bool,
 
     // AWS Resources
-    #[clap(short = 's', long = "spot", about = "Use SPOT (true) or On-Demand (false)")]
+    #[clap(
+        short = 's',
+        long = "spot",
+        about = "Use SPOT (true) or On-Demand (false)"
+    )]
     pub spot: bool,
 
     // Job meta-data
@@ -49,13 +63,19 @@ pub struct Opts {
     #[clap(long = "monitor", about = "Should the job be monitored", requires_all = &["monitor_interval", "emails"])]
     pub monitor: bool,
 
-    #[clap(name = "monitor_interval",
-           long = "monitor_interval",
-           about = "Intervals for status mails",
-           default_value_if("monitor", None, "1"))]
+    #[clap(
+        name = "monitor_interval",
+        long = "monitor_interval",
+        about = "Intervals for status mails",
+        default_value_if("monitor", None, "1")
+    )]
     monitor_interval: Option<i32>,
 
-    #[clap(long = "emails", multiple = true, about = "e-mail addresses for status notifications")]
+    #[clap(
+        long = "emails",
+        multiple = true,
+        about = "e-mail addresses for status notifications"
+    )]
     pub emails: Option<Vec<String>>,
 
     // General
@@ -70,14 +90,14 @@ pub struct Opts {
 pub enum Framework {
     Pytorch12,
     Pytorch14,
-    Tensorflow30
+    Tensorflow30,
 }
 
 #[derive(Clap, Debug, PartialEq)]
 pub enum GPUType {
     V100,
     K80,
-    T4
+    T4,
 }
 
 pub fn parse() -> Opts {
@@ -90,7 +110,9 @@ pub fn count_params(s: &String) -> i32 {
     for c in s.chars() {
         if c == '(' {
             current += 1;
-            if current > counter { counter = current }
+            if current > counter {
+                counter = current
+            }
         } else if c == ')' {
             current -= 1
         }
@@ -98,4 +120,3 @@ pub fn count_params(s: &String) -> i32 {
     println!("Balance: {}", current);
     counter
 }
-
