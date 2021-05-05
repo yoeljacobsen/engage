@@ -1,6 +1,6 @@
 use engage::args;
 use engage::verify_cred::verify_cred;
-use rusoto_batch::{Batch, BatchClient, DescribeJobDefinitionsRequest};
+use engage::aws_batch::foo;
 use rusoto_core::Region;
 use std::str::FromStr;
 
@@ -17,10 +17,5 @@ async fn main() {
         }
     }
 
-    let client = BatchClient::new(Region::UsWest1);
-    let request = DescribeJobDefinitionsRequest::default();
-    let response = client.describe_job_definitions(request).await.unwrap();
-
-    println!("Response: {:?}", response);
-    println!("Depth: {}", args::count_params(&opts.command));
+   foo(region.clone()).await;
 }
