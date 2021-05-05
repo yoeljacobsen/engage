@@ -56,6 +56,9 @@ pub struct Opts {
     )]
     pub spot: bool,
 
+    #[clap(long = "region", default_value = "us-west-1")]
+    pub region: String,
+
     // Job meta-data
     #[clap(short = 'n', long = "name", default_value = "Unnamed job")]
     pub name: String,
