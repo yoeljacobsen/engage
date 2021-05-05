@@ -1,12 +1,19 @@
 use clap::{ArgGroup, Clap};
+use config::File;
+//use std::sync::RwLock;
+use config::Config;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clap, Debug)]
+#[derive(Clap, Debug, Serialize, Deserialize)]
 #[clap(author, about, version)]
 #[clap(group = ArgGroup::new("CONTAINER").required(false))]
 pub struct Opts {
     // Test flags
     #[clap(long = "verify_cred", about = "Just verify the credentials work")]
     pub verify_cred: bool,
+
+    #[clap(long = "debug", about = "Print debugging informagtion")]
+    pub debug: bool,
 
     // Computational Flags
     #[clap(
@@ -89,23 +96,35 @@ pub struct Opts {
     pub command: String,
 }
 
-#[derive(Clap, Debug, PartialEq)]
+#[derive(Clap, Debug, PartialEq, Serialize, Deserialize)]
 pub enum Framework {
     Pytorch12,
     Pytorch14,
     Tensorflow30,
 }
 
-#[derive(Clap, Debug, PartialEq)]
+#[derive(Clap, Debug, PartialEq, Serialize, Deserialize)]
 pub enum GPUType {
     V100,
     K80,
     T4,
 }
 
-pub fn parse() -> Opts {
-    Opts::parse()
+fn update_with_config(opts: Opts) -> Opts {
+    let mut settings = Config::default();
+    // The order of the next two lines determines which source overrides which
+    settings.merge(Config::try_from(&opts).unwrap()).unwrap();
+
+    settings.merge(File::with_name("Settings.toml")).unwrap();
+    println!("{:?}", settings);
+    let as_opts: Opts = settings.try_into().unwrap();
+    as_opts
 }
+
+pub fn parse() -> Opts {
+    update_with_config(Opts::parse())
+}
+
 pub fn count_params(s: &String) -> i32 {
     let mut counter: i32 = 0;
     let mut current: i32 = 0;
