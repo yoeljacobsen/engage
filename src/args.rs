@@ -12,7 +12,7 @@ pub struct Opts {
     #[clap(long = "verify_cred", about = "Just verify the credentials work")]
     pub verify_cred: bool,
 
-    #[clap(long = "debug", about = "Print debugging informagtion")]
+    #[clap(long = "debug", about = "Print debugging information")]
     pub debug: bool,
 
     // Computational Flags

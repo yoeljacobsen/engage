@@ -1,6 +1,6 @@
 use engage::args;
 use engage::verify_cred::verify_cred;
-use engage::aws_batch::foo;
+use engage::aws_batch::ensure_compatible_batch_elements;
 use rusoto_core::Region;
 use std::str::FromStr;
 
@@ -17,5 +17,5 @@ async fn main() {
         }
     }
 
-   foo(region.clone()).await;
+   ensure_compatible_batch_elements(&opts).await;
 }
