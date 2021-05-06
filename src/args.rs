@@ -121,8 +121,14 @@ fn update_with_config(opts: Opts) -> Opts {
     as_opts
 }
 
+fn verify_opts (opts: Opts) -> Opts {
+    opts.copy()
+}
+
 pub fn parse() -> Opts {
-    update_with_config(Opts::parse())
+    let plus_config = update_with_config(Opts::parse());
+    let verified = verify_opts(plus_config);
+    verified
 }
 
 pub fn count_params(s: &String) -> i32 {
