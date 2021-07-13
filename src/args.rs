@@ -122,7 +122,7 @@ fn update_with_config(opts: Opts) -> Opts {
 }
 
 fn verify_opts (opts: Opts) -> Opts {
-    opts.copy()
+    opts
 }
 
 pub fn parse() -> Opts {
